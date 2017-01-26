@@ -1,10 +1,12 @@
 package net.vnnz.app.pixabay.model.pojo;
 
+import java.util.ArrayList;
+
 public class SearchResult {
 
     private String total;
 
-    private Hits[] hits;
+    private ArrayList<Hits> hits;
 
     private String totalHits;
 
@@ -16,11 +18,11 @@ public class SearchResult {
         this.total = total;
     }
 
-    public Hits[] getHits() {
+    public ArrayList<Hits> getHits() {
         return hits;
     }
 
-    public void setHits(Hits[] hits) {
+    public void setHits(ArrayList<Hits> hits) {
         this.hits = hits;
     }
 

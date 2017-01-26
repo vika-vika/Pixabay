@@ -1,37 +1,36 @@
 package net.vnnz.app.pixabay.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import net.vnnz.app.pixabay.R;
+import net.vnnz.app.pixabay.model.pojo.Hits;
 
 import java.util.ArrayList;
 
 public class GridLayoutAdapter extends CustomRecyclerViewAdapter {
     private Activity activity;
-    private ArrayList<String> images;
-    private int screenWidth;
+    private ArrayList<Hits> images;
 
-    public GridLayoutAdapter(Activity activity, ArrayList<String> images) {
+    private int imgWidth = 500;
+
+    public GridLayoutAdapter(Activity activity, ArrayList<Hits> images) {
         this.activity = activity;
         this.images = images;
-
-        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        screenWidth = size.x;
     }
+
+    public void setImageWidth (int imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
 
     @Override
     public CustomRecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,12 +49,17 @@ public class GridLayoutAdapter extends CustomRecyclerViewAdapter {
         opts.inJustDecodeBounds = false;*/
 
         Picasso.with(activity)
-                .load(images.get(position))
+                .load(images.get(position).getPreviewURL())
                 .error(R.drawable.no_image_placeholder_big)
                 .placeholder(R.drawable.no_image_placeholder_big)
-                .resize(screenWidth / 2, 300)
+                .resize(imgWidth, 300)
                 .centerCrop()
                 .into((myHolder.images));
+
+        myHolder.username.setText(images.get(position).getUser());
+        myHolder.tags.setText(images.get(position).getTags());
+
+
     }
 
     @Override
@@ -65,10 +69,14 @@ public class GridLayoutAdapter extends CustomRecyclerViewAdapter {
 
     public class Holder extends CustomRecycleViewHolder {
         private ImageView images;
+        private TextView username;
+        private TextView tags;
 
         public Holder(View itemView) {
             super(itemView);
             images = (ImageView) itemView.findViewById(R.id.card_preview_img);
+            username = (TextView) itemView.findViewById(R.id.card_preview_name);
+            tags = (TextView) itemView.findViewById(R.id.card_preview_tags);
         }
     }
 }

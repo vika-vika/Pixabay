@@ -8,7 +8,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="2dp">
 
         <!--     <RelativeLayout
                  android:layout_width="match_parent"
@@ -32,6 +33,7 @@
              </RelativeLayout>-->
 
         <ImageView
+            android:layout_gravity="center_horizontal"
             android:id="@+id/card_preview_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +55,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="#cat #life #pain"
-            android:paddingLeft="5dp"/>
+            android:paddingLeft="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -21,6 +21,7 @@ public class ApiClient {
     private Context context;
 
     private Retrofit getClient() {
+
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -30,20 +31,9 @@ public class ApiClient {
         return retrofit;
     }
 
-    public void doSearch (String searchValue) {
+    public void doSearch (String searchValue, Callback<SearchResult> callback) {
         PixabayService apiService = getClient().create(PixabayService.class);
         Call<SearchResult> call = apiService.doSearch(searchValue);
-
-        call.enqueue(new Callback<SearchResult>() {
-            @Override
-            public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                Log.e(TAG, response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<SearchResult> call, Throwable t) {
-
-            }
-        });
+        call.enqueue(callback);
     }
 }
