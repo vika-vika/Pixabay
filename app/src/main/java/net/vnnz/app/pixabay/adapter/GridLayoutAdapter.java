@@ -1,4 +1,4 @@
-package net.vnnz.app.pixabay.pixabay.adapter;
+package net.vnnz.app.pixabay.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import net.vnnz.app.pixabay.pixabay.R;
+import net.vnnz.app.pixabay.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package net.vnnz.app.pixabay.pixabay.adapter;
+package net.vnnz.app.pixabay.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

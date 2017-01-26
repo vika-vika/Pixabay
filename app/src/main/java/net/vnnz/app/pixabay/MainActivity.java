@@ -1,15 +1,19 @@
-package net.vnnz.app.pixabay.pixabay;
+package net.vnnz.app.pixabay;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
-import net.vnnz.app.pixabay.pixabay.adapter.CustomRecyclerViewAdapter;
-import net.vnnz.app.pixabay.pixabay.adapter.GridLayoutAdapter;
+import net.vnnz.app.pixabay.adapter.CustomRecyclerViewAdapter;
+import net.vnnz.app.pixabay.adapter.GridLayoutAdapter;
+import net.vnnz.app.pixabay.http.ApiClient;
+import net.vnnz.app.pixabay.R;
 
 import java.util.ArrayList;
 
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new GridLayoutAdapter(this, getImages());
         recyclerViewMain.setAdapter(adapter);
+
+        new ApiClient().doSearch("fruits");
     }
 
     private ArrayList<String> getImages() {
@@ -75,5 +81,23 @@ public class MainActivity extends AppCompatActivity {
             images.add(IMAGES[i]);
         }
         return images;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+
+       /*     RecyclerView.LayoutManager mLayoutManager =  new GridLayoutManager(this, 3);
+            recyclerViewMain.setLayoutManager(mLayoutManager);
+            adapter = new GridLayoutAdapter(this, getImages());
+            recyclerViewMain.setAdapter(adapter);*/
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
     }
 }
