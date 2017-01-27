@@ -26,26 +26,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_switcher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:onClick="onToolbarIconClick"
-                    android:src="@android:drawable/sym_action_call">
-                </ImageView>
-
                 <EditText
                     android:id="@+id/search_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:hint="Enter country"
-                    android:layout_marginLeft="15dp"
-                    android:visibility="gone"/>
+                    android:text="Fruits"
+                    android:enabled="false"/>
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -53,9 +44,6 @@
         android:id="@+id/cards_container_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="0dp"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

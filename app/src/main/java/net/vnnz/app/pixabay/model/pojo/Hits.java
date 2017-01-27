@@ -1,6 +1,9 @@
 package net.vnnz.app.pixabay.model.pojo;
 
-public class Hits {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Hits implements Parcelable{
     private String tags;
 
     private String imageHeight;
@@ -205,4 +208,52 @@ public class Hits {
     public String toString() {
         return "Hits [tags = " + tags + ", imageHeight = " + imageHeight + ", webformatHeight = " + webformatHeight + ", previewHeight = " + previewHeight + ", previewURL = " + previewURL + ", favorites = " + favorites + ", type = " + type + ", previewWidth = " + previewWidth + ", downloads = " + downloads + ", userImageURL = " + userImageURL + ", pageURL = " + pageURL + ", id = " + id + ", views = " + views + ", likes = " + likes + ", user_id = " + user_id + ", webformatWidth = " + webformatWidth + ", webformatURL = " + webformatURL + ", user = " + user + ", imageWidth = " + imageWidth + ", comments = " + comments + "]";
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(tags);
+        parcel.writeString(previewURL);
+        parcel.writeString(favorites);
+        parcel.writeString(downloads);
+        parcel.writeString(userImageURL);
+        parcel.writeString(id);
+        parcel.writeString(views);
+        parcel.writeString(likes);
+        parcel.writeString(user_id);
+        parcel.writeString(webformatURL);
+        parcel.writeString(user);
+        parcel.writeString(comments);
+    }
+
+    protected Hits(Parcel in) {
+        tags = in.readString();
+        previewURL = in.readString();
+        favorites = in.readString();
+        downloads = in.readString();
+        userImageURL = in.readString();
+        id = in.readString();
+        views = in.readString();
+        likes = in.readString();
+        user_id = in.readString();
+        webformatURL = in.readString();
+        user = in.readString();
+        comments = in.readString();
+    }
+
+    public static final Creator<Hits> CREATOR = new Creator<Hits>() {
+        @Override
+        public Hits createFromParcel(Parcel in) {
+            return new Hits(in);
+        }
+
+        @Override
+        public Hits[] newArray(int size) {
+            return new Hits[size];
+        }
+    };
 }
