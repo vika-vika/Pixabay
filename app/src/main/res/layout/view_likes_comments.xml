@@ -8,18 +8,17 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:src="@drawable/comment_icon"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"/>
 
     <TextView
         android:id="@+id/comments_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="7"
         android:textColor="?attr/colorPrimary"
         android:fontFamily="sans-serif-condensed"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="10dp"/>
 
 
     <ImageView
@@ -27,13 +26,27 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@drawable/like_icon"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="2dp"/>
 
     <TextView
         android:id="@+id/likes_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="11"
+        android:textColor="?attr/colorPrimary"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginRight="10dp"/>
+
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/faves_icon"
+        android:layout_marginRight="2dp"/>
+
+    <TextView
+        android:id="@+id/faves_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textColor="?attr/colorPrimary"
         android:fontFamily="sans-serif-condensed" />
 

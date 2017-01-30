@@ -27,30 +27,29 @@
                 android:id="@+id/card_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp">
+                android:layout_margin="5dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+              <!--      <TextView
                         android:id="@+id/card_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="TextView"
-                        android:textStyle="bold" />
+                        android:textStyle="bold" />-->
 
                     <ImageView
+                        android:layout_marginTop="10dp"
                         android:id="@+id/card_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/card_username"
                         android:layout_centerHorizontal="true" />
 
                     <LinearLayout
-                        android:id="@+id/card_social"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/card_image"
@@ -63,12 +62,10 @@
                             android:layout_weight="1"
                             android:text="" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <include layout="@layout/view_likes_comments" />
-
-                        </LinearLayout>
+                        <net.vnnz.app.pixabay.view.SocialView
+                            android:id="@+id/card_social"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content" />
                     </LinearLayout>
 
                 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.view.SocialView;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -21,6 +22,8 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.card_image_full);
 
+        Hits hit = getIntent().getParcelableExtra(EXTRA_HITS);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
@@ -30,11 +33,10 @@ public class ImageActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        getSupportActionBar().setTitle(hit.getUser());
 
-        Hits hit = getIntent().getParcelableExtra(EXTRA_HITS);
-
-        TextView text = (TextView) findViewById(R.id.card_username);
-        text.setText(hit.getUser());
+    /*    TextView text = (TextView) findViewById(R.id.card_username);
+        text.setText(hit.getUser());*/
 
         ImageView cardImage = (ImageView) findViewById(R.id.card_image);
 
@@ -46,13 +48,12 @@ public class ImageActivity extends AppCompatActivity {
                 .centerInside()
                 .into(cardImage);
 
-        TextView likes = (TextView) findViewById(R.id.likes_count);
-        likes.setText(hit.getLikes().isEmpty() ? "0" : hit.getLikes());
-
-        TextView comments = (TextView) findViewById(R.id.comments_count);
-        comments.setText(hit.getComments());
-
         TextView tags = (TextView) findViewById(R.id.card_tags);
         tags.setText(hit.getTags());
+
+        SocialView socialView = (SocialView) findViewById(R.id.card_social);
+        socialView.setLikes(hit.getLikes());
+        socialView.setComments(hit.getComments());
+        socialView.setFavourits(hit.getFavorites());
     }
 }
