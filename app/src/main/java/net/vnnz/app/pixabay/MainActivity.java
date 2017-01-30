@@ -88,15 +88,31 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
     @Override
     public void onSuccess(Response<SearchResult> response) {
+        String error = "";
+
         if (response.isSuccessful()) {
             images = response.body().getHits();
+
+            if (images.size() == 0) {
+                error = getString(R.string.no_images);
+            }
             adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
             recyclerViewMain.setAdapter(adapter);
+        } else {
+            error = getString(R.string.common_error);
         }
+        showError(error);
+    }
+
+    private void showError(String error) {
+        TextView errorTv = (TextView) findViewById(R.id.error_placeholder);
+        errorTv.setText(error);
     }
 
     @Override
-    public void onFailure(Call<SearchResult> call, Throwable t) {}
+    public void onFailure(Call<SearchResult> call, Throwable t) {
+        showError(getString(R.string.common_error));
+    }
 
     @Override
     public void onClick(View view) {
@@ -107,12 +123,15 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
         searchLt.setVisibility(isEnabled ? View.VISIBLE : View.GONE);
         toolbar.setNavigationIcon(isEnabled  ? R.drawable.abc_ic_ab_back_material : R.drawable.search_icon);
         searchText.setVisibility(isEnabled ? View.GONE : View.VISIBLE);
+        if (isEnabled) {
+            searchEt.requestFocus();
+        }
     }
 
     @Override
     public void onPositiveClicked(Object data) {
         Intent i = new Intent(this, ImageActivity.class);
-        i.putExtra("Hits", (Hits) data);
+        i.putExtra(ImageActivity.EXTRA_HITS, (Hits) data);
         startActivity(i);
     }
 
@@ -122,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
     public void onSearchClick(View view) {
         client.doSearch(searchEt.getText().toString(), new RequestCallback<SearchResult>(this));
+        searchText.setText(searchEt.getText().toString());
+        searchEt.setText("");
         enableSearchLayout (false);
     }
 

@@ -40,6 +40,8 @@ public class ApiClient {
             PixabayService apiService = getClient().create(PixabayService.class);
             Call<SearchResult> call = apiService.doSearch(searchValue);
 
+            Log.e(TAG, call.request().toString());
+
             if (call.isExecuted()) {
                 call.cancel();
             }

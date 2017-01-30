@@ -30,6 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:capitalize="words"
                     android:text="Fruits"
                     android:textSize="22sp" />
 
@@ -46,18 +47,17 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:hint="Search..">
-                    </EditText>
+                        android:hint="Search.."></EditText>
 
                     <ImageView
                         android:id="@+id/search_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="onSearchClick"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
-                        android:src="@drawable/search_icon"
-                        android:onClick="onSearchClick"
-                        android:clickable="true"/>
+                        android:src="@drawable/search_icon" />
                 </LinearLayout>
 
             </FrameLayout>
@@ -68,10 +68,23 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cards_container_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/error_placeholder"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cards_container_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

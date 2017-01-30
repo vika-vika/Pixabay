@@ -15,6 +15,8 @@ import net.vnnz.app.pixabay.model.pojo.Hits;
 
 public class ImageActivity extends AppCompatActivity {
 
+    public static final String EXTRA_HITS = "net.vnnz.app.pixabay.EXTRA_HITS";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-        Hits hit = getIntent().getParcelableExtra("Hits");
+        Hits hit = getIntent().getParcelableExtra(EXTRA_HITS);
 
         TextView text = (TextView) findViewById(R.id.card_username);
         text.setText(hit.getUser());

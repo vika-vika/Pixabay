@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ public class ConfirmationDialog extends DialogFragment {
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog, null);
         final Hits hit = getArguments().getParcelable("hit");
         TextView text = (TextView) dialogView.findViewById(R.id.dialog_content_text);
-        text.setText("Are you sure you want to see image of " + hit.getUser() + "?");
+        text.setText(getString(R.string.dialog_text, hit.getUser()));
 
         Button positive = (Button) dialogView.findViewById(R.id.button_positive);
         positive.setOnClickListener(new View.OnClickListener() {
@@ -62,10 +63,6 @@ public class ConfirmationDialog extends DialogFragment {
                 .create();
 
         return dialog;
-    }
-
-    private int getDialogId(){
-        return getArguments().getInt("dialogId");
     }
 }
 
