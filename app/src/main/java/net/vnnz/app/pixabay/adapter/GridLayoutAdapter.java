@@ -2,7 +2,6 @@ package net.vnnz.app.pixabay.adapter;
 
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import net.vnnz.app.pixabay.utils.WindowUtils;
 
 import java.util.ArrayList;
 
-public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Holder> {
+public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Holder> implements View.OnClickListener {
     private Activity activity;
     private ArrayList<Hits> images;
 
@@ -48,11 +47,6 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Ho
     public void onBindViewHolder(final Holder  holder, final int position) {
         final Holder myHolder = (Holder) holder;
 
-     /*   BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(images.get(position), opts);
-        opts.inJustDecodeBounds = false;*/
-
         Picasso.with(activity)
                 .load(images.get(position).getPreviewURL())
                 .error(R.drawable.no_image_placeholder_big)
@@ -63,8 +57,8 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Ho
 
         myHolder.username.setText(images.get(position).getUser());
         myHolder.tags.setText(images.get(position).getTags());
-        myHolder.holder.setTag(images.get(position));
-        myHolder.holder.setOnClickListener((View.OnClickListener) activity);
+        myHolder.getItemView().setOnClickListener(this);
+        myHolder.getItemView().setTag(images.get(position));
     }
 
     @Override
@@ -72,19 +66,29 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Ho
         return images.size();
     }
 
+    @Override
+    public void onClick(View view) {
+        if (activity instanceof OnImageClickListener) {
+            Hits hit = (Hits) view.getTag();
+            ((OnImageClickListener) activity).onImageClicked(hit);
+        }
+    }
+
     public class Holder extends  RecyclerView.ViewHolder  {
 
         private ImageView images;
         private TextView username;
         private TextView tags;
-        private CardView holder;
 
         public Holder(View itemView) {
             super(itemView);
             images = (ImageView) itemView.findViewById(R.id.card_preview_img);
             username = (TextView) itemView.findViewById(R.id.card_preview_name);
             tags = (TextView) itemView.findViewById(R.id.card_preview_tags);
-            holder = (CardView) itemView.findViewById(R.id.card_holder);
+        }
+
+        public View getItemView() {
+            return itemView;
         }
     }
 }

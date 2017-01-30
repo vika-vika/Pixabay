@@ -1,4 +1,4 @@
-package net.vnnz.app.pixabay;
+package net.vnnz.app.pixabay.http;
 
 
 import retrofit2.Call;

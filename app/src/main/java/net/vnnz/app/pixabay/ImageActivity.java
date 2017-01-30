@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,13 +36,13 @@ public class ImageActivity extends AppCompatActivity {
         text.setText(hit.getUser());
 
         ImageView cardImage = (ImageView) findViewById(R.id.card_image);
-        Log.e("TAG", "hit.getWebformatURL()" + hit.getWebformatURL());
 
         Picasso.with (ImageActivity.this)
                 .load(hit.getWebformatURL())
                 .placeholder (R.drawable.no_image_placeholder_big)
                 .error (R.drawable.search_icon)
                 .fit()
+                .centerInside()
                 .into(cardImage);
 
         TextView likes = (TextView) findViewById(R.id.likes_count);
@@ -51,5 +50,8 @@ public class ImageActivity extends AppCompatActivity {
 
         TextView comments = (TextView) findViewById(R.id.comments_count);
         comments.setText(hit.getComments());
+
+        TextView tags = (TextView) findViewById(R.id.card_tags);
+        tags.setText(hit.getTags());
     }
 }

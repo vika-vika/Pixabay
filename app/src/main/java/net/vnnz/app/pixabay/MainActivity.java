@@ -9,15 +9,19 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import net.vnnz.app.pixabay.adapter.GridLayoutAdapter;
+import net.vnnz.app.pixabay.adapter.OnImageClickListener;
 import net.vnnz.app.pixabay.dialog.ConfirmationDialog;
 import net.vnnz.app.pixabay.http.ApiClient;
 
+import net.vnnz.app.pixabay.http.RequestCallback;
+import net.vnnz.app.pixabay.http.RequestListener;
 import net.vnnz.app.pixabay.model.pojo.Hits;
 import net.vnnz.app.pixabay.model.pojo.SearchResult;
 import net.vnnz.app.pixabay.utils.WindowUtils;
@@ -27,37 +31,40 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements RequestListener<SearchResult>,  View.OnClickListener,  ConfirmationDialog.OnDialogFragmentClickListener {
+public class MainActivity extends AppCompatActivity implements RequestListener<SearchResult>, View.OnClickListener, ConfirmationDialog.OnDialogFragmentClickListener, OnImageClickListener {
 
     private GridLayoutAdapter adapter;
-    private ArrayList<Hits>  images = new ArrayList<>();
+    private ArrayList<Hits> images = new ArrayList<>();
 
     private RecyclerView recyclerViewMain;
+    private LinearLayout searchLt;
+
     private ApiClient client;
-    private EditText editText;
+    private EditText searchEt;
+    private TextView searchText;
+    private Toolbar toolbar;
+
+    private String DEFAULT_REQUEST = "fruits";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        searchLt = (LinearLayout) findViewById(R.id.search_layout);
+        searchText = (TextView) findViewById(R.id.search_text);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.search_icon);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText.setEnabled(true);
-                editText.requestFocus();
-            }
-        });
+        toolbar.setNavigationOnClickListener(this);
 
-        editText = (EditText) findViewById(R.id.search_value);
+        searchEt = (EditText) findViewById(R.id.search_value);
         recyclerViewMain = (RecyclerView) findViewById(R.id.cards_container_recycler_view);
 
         int columnCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2;
 
-        RecyclerView.LayoutManager mLayoutManager =  new GridLayoutManager(this, columnCount);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, columnCount);
         recyclerViewMain.setHasFixedSize(true);
         recyclerViewMain.setLayoutManager(mLayoutManager);
 
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
         recyclerViewMain.setAdapter(adapter);
 
         client = new ApiClient();
-        client.doSearch("fruits", new RequestCallback<SearchResult>(this));
+        client.doSearch(DEFAULT_REQUEST, new RequestCallback<SearchResult>(this));
     }
 
     @Override
@@ -74,14 +81,13 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
         int columnCount = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2;
         adapter.setImageWidth(WindowUtils.getScreenWidth(this) / columnCount);
-        RecyclerView.LayoutManager mLayoutManager =  new GridLayoutManager(this, columnCount);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, columnCount);
         recyclerViewMain.setLayoutManager(mLayoutManager);
 
     }
 
     @Override
     public void onSuccess(Response<SearchResult> response) {
-
         if (response.isSuccessful()) {
             images = response.body().getHits();
             adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
@@ -90,25 +96,17 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
     }
 
     @Override
-    public void onFailure(Call<SearchResult> call, Throwable t) {
-        if (call.isCanceled()) {
-            Log.e("TAG", "is cancelled " + call.request().url());
-        }
-
-    }
-
-    public void onToolbarIconClick(View view) {
-        client.getHttpClient().dispatcher().cancelAll();
-       // client.doSearch(editable.toString(), new RequestCallback<SearchResult>(this));
-    }
+    public void onFailure(Call<SearchResult> call, Throwable t) {}
 
     @Override
     public void onClick(View view) {
-        Hits hits = (Hits) view.getTag();
-        Log.e("TAG", hits.toString());
+        enableSearchLayout (searchLt.getVisibility() != View.VISIBLE);
+    }
 
-        ConfirmationDialog dialogFrag = ConfirmationDialog.newInstance(hits);
-        dialogFrag.show(getSupportFragmentManager(), "dialog");
+    private void enableSearchLayout(boolean isEnabled) {
+        searchLt.setVisibility(isEnabled ? View.VISIBLE : View.GONE);
+        toolbar.setNavigationIcon(isEnabled  ? R.drawable.abc_ic_ab_back_material : R.drawable.search_icon);
+        searchText.setVisibility(isEnabled ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -120,6 +118,16 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
     @Override
     public void onNegativeClicked() {
+    }
 
+    public void onSearchClick(View view) {
+        client.doSearch(searchEt.getText().toString(), new RequestCallback<SearchResult>(this));
+        enableSearchLayout (false);
+    }
+
+    @Override
+    public void onImageClicked(Hits hit) {
+        ConfirmationDialog dialogFrag = ConfirmationDialog.newInstance(hit);
+        dialogFrag.show(getSupportFragmentManager(), "dialog");
     }
 }
