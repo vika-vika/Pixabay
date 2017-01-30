@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.vnnz.app.pixabay.adapter.GridLayoutAdapter;
@@ -24,7 +26,7 @@ import net.vnnz.app.pixabay.http.RequestCallback;
 import net.vnnz.app.pixabay.http.RequestListener;
 import net.vnnz.app.pixabay.model.pojo.Hits;
 import net.vnnz.app.pixabay.model.pojo.SearchResult;
-import net.vnnz.app.pixabay.utils.WindowUtils;
+import net.vnnz.app.pixabay.utils.ResponseValidator;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
     private EditText searchEt;
     private TextView searchText;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
 
     private String DEFAULT_REQUEST = "fruits";
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
         searchLt = (LinearLayout) findViewById(R.id.search_layout);
         searchText = (TextView) findViewById(R.id.search_text);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,57 +65,51 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
         searchEt = (EditText) findViewById(R.id.search_value);
         recyclerViewMain = (RecyclerView) findViewById(R.id.cards_container_recycler_view);
-
-        int columnCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2;
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, columnCount);
-        recyclerViewMain.setHasFixedSize(true);
-        recyclerViewMain.setLayoutManager(mLayoutManager);
+        setGridLayout();
 
         adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
         recyclerViewMain.setAdapter(adapter);
 
         client = new ApiClient();
-        client.doSearch(DEFAULT_REQUEST, new RequestCallback<SearchResult>(this));
+        client.doSearch(this, DEFAULT_REQUEST, new RequestCallback<SearchResult>(this));
+    }
+
+    private void setGridLayout (){
+        int columnCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2;
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, columnCount);
+        recyclerViewMain.setHasFixedSize(true);
+        recyclerViewMain.setLayoutManager(mLayoutManager);
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-        int columnCount = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? 3 : 2;
-        adapter.setImageWidth(WindowUtils.getScreenWidth(this) / columnCount);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, columnCount);
-        recyclerViewMain.setLayoutManager(mLayoutManager);
-
+        setGridLayout();
     }
 
     @Override
     public void onSuccess(Response<SearchResult> response) {
-        String error = "";
+        String error = ResponseValidator.validateSearch(this, response);
 
-        if (response.isSuccessful()) {
+        if (error.isEmpty()) {
             images = response.body().getHits();
-
-            if (images.size() == 0) {
-                error = getString(R.string.no_images);
-            }
             adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
             recyclerViewMain.setAdapter(adapter);
+            recyclerViewMain.setVisibility(View.VISIBLE);
         } else {
-            error = getString(R.string.common_error);
+            showError(error);
+            recyclerViewMain.setVisibility(View.GONE);
         }
-        showError(error);
-    }
-
-    private void showError(String error) {
-        TextView errorTv = (TextView) findViewById(R.id.error_placeholder);
-        errorTv.setText(error);
     }
 
     @Override
     public void onFailure(Call<SearchResult> call, Throwable t) {
         showError(getString(R.string.common_error));
+    }
+
+    @Override
+    public void showProgress(boolean b) {
+        progressBar.setVisibility(b ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -128,6 +126,11 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
         }
     }
 
+    private void showError(String error) {
+        TextView errorTv = (TextView) findViewById(R.id.error_placeholder);
+        errorTv.setText(error);
+    }
+
     @Override
     public void onPositiveClicked(Object data) {
         Intent i = new Intent(this, ImageActivity.class);
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
     }
 
     public void onSearchClick(View view) {
-        client.doSearch(searchEt.getText().toString(), new RequestCallback<SearchResult>(this));
+        client.doSearch(this, searchEt.getText().toString(), new RequestCallback<SearchResult>(this));
         searchText.setText(searchEt.getText().toString());
         searchEt.setText("");
         enableSearchLayout (false);

@@ -9,4 +9,6 @@ public abstract interface RequestListener<T> {
     void onSuccess(Response<T> response);
 
     void onFailure(Call<T> call, Throwable t);
+
+    void showProgress(boolean b);
 }

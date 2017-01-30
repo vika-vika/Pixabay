@@ -4,4 +4,6 @@
     <string name="common_error">Ooops. Something went wrong</string>
 
     <string name="dialog_text">Open <b>%s</b> image?</string>
+    <string name="comments">Comments</string>
+    <string name="comments_not_implemented">...</string>
 </resources>

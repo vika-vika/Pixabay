@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso;
 
 import net.vnnz.app.pixabay.model.pojo.Hits;
 
-
 public class ImageActivity extends AppCompatActivity {
 
     public static final String EXTRA_HITS = "net.vnnz.app.pixabay.EXTRA_HITS";
