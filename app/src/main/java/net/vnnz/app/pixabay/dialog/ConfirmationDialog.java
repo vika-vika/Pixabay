@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import net.vnnz.app.pixabay.R;
-import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.model.pojo.Image;
 
 public class ConfirmationDialog extends DialogFragment {
 
@@ -18,7 +18,7 @@ public class ConfirmationDialog extends DialogFragment {
         void onNegativeClicked();
     }
 
-    public static ConfirmationDialog newInstance(Hits hit) {
+    public static ConfirmationDialog newInstance(Image hit) {
 
         ConfirmationDialog frag = new ConfirmationDialog();
         Bundle args = new Bundle();
@@ -31,7 +31,7 @@ public class ConfirmationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog, null);
-        final Hits hit = getArguments().getParcelable("hit");
+        final Image hit = getArguments().getParcelable("hit");
         TextView text = (TextView) dialogView.findViewById(R.id.dialog_content_text);
         text.setText(getString(R.string.dialog_text, hit.getUser()));
 

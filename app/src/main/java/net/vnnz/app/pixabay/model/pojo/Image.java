@@ -3,7 +3,7 @@ package net.vnnz.app.pixabay.model.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Hits implements Parcelable{
+public class Image implements Parcelable{
     private String tags;
 
     private String imageHeight;
@@ -206,7 +206,7 @@ public class Hits implements Parcelable{
 
     @Override
     public String toString() {
-        return "Hits [tags = " + tags + ", imageHeight = " + imageHeight + ", webformatHeight = " + webformatHeight + ", previewHeight = " + previewHeight + ", previewURL = " + previewURL + ", favorites = " + favorites + ", type = " + type + ", previewWidth = " + previewWidth + ", downloads = " + downloads + ", userImageURL = " + userImageURL + ", pageURL = " + pageURL + ", id = " + id + ", views = " + views + ", likes = " + likes + ", user_id = " + user_id + ", webformatWidth = " + webformatWidth + ", webformatURL = " + webformatURL + ", user = " + user + ", imageWidth = " + imageWidth + ", comments = " + comments + "]";
+        return "Image [tags = " + tags + ", imageHeight = " + imageHeight + ", webformatHeight = " + webformatHeight + ", previewHeight = " + previewHeight + ", previewURL = " + previewURL + ", favorites = " + favorites + ", type = " + type + ", previewWidth = " + previewWidth + ", downloads = " + downloads + ", userImageURL = " + userImageURL + ", pageURL = " + pageURL + ", id = " + id + ", views = " + views + ", likes = " + likes + ", user_id = " + user_id + ", webformatWidth = " + webformatWidth + ", webformatURL = " + webformatURL + ", user = " + user + ", imageWidth = " + imageWidth + ", comments = " + comments + "]";
     }
 
     @Override
@@ -230,7 +230,7 @@ public class Hits implements Parcelable{
         parcel.writeString(comments);
     }
 
-    protected Hits(Parcel in) {
+    protected Image(Parcel in) {
         tags = in.readString();
         previewURL = in.readString();
         favorites = in.readString();
@@ -245,15 +245,15 @@ public class Hits implements Parcelable{
         comments = in.readString();
     }
 
-    public static final Creator<Hits> CREATOR = new Creator<Hits>() {
+    public static final Creator<Image> CREATOR = new Creator<Image>() {
         @Override
-        public Hits createFromParcel(Parcel in) {
-            return new Hits(in);
+        public Image createFromParcel(Parcel in) {
+            return new Image(in);
         }
 
         @Override
-        public Hits[] newArray(int size) {
-            return new Hits[size];
+        public Image[] newArray(int size) {
+            return new Image[size];
         }
     };
 }

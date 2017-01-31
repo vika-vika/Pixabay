@@ -16,7 +16,7 @@ public class ResponseValidator {
     public static String validateSearch (Context context, Response<SearchResult> response){
         String error = "";
         if (response.isSuccessful()) {
-            if (response.body().getHits().size() == 0) {
+            if (response.body().getImages().size() == 0) {
                 error = context.getString(R.string.no_images);
             }
         } else {

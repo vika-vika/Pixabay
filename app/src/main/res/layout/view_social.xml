@@ -4,7 +4,7 @@
     <data>
         <variable
             name="image"
-            type="net.vnnz.app.pixabay.model.pojo.Hits" />
+            type="net.vnnz.app.pixabay.model.pojo.Image" />
     </data>
 
     <LinearLayout

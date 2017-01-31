@@ -2,7 +2,7 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="image" type="net.vnnz.app.pixabay.model.pojo.Hits"/>
+        <variable name="image" type="net.vnnz.app.pixabay.model.pojo.Image"/>
     </data>
 
 <LinearLayout

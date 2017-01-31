@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 
 import android.support.v7.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,7 +23,7 @@ import net.vnnz.app.pixabay.http.ApiClient;
 
 import net.vnnz.app.pixabay.http.RequestCallback;
 import net.vnnz.app.pixabay.http.RequestListener;
-import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.model.pojo.Image;
 import net.vnnz.app.pixabay.model.pojo.SearchResult;
 import net.vnnz.app.pixabay.utils.ResponseValidator;
 
@@ -36,7 +35,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements RequestListener<SearchResult>, View.OnClickListener, ConfirmationDialog.OnDialogFragmentClickListener, OnImageClickListener {
 
     private GridLayoutAdapter adapter;
-    private ArrayList<Hits> images = new ArrayList<>();
+    private ArrayList<Image> images = new ArrayList<>();
 
     private RecyclerView recyclerViewMain;
     private LinearLayout searchLt;
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
         String error = ResponseValidator.validateSearch(this, response);
 
         if (error.isEmpty()) {
-            images = response.body().getHits();
+            images = response.body().getImages();
             adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
             recyclerViewMain.setAdapter(adapter);
             recyclerViewMain.setVisibility(View.VISIBLE);
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
     @Override
     public void onPositiveClicked(Object data) {
         Intent i = new Intent(this, ImageActivity.class);
-        i.putExtra(ImageActivity.EXTRA_HITS, (Hits) data);
+        i.putExtra(ImageActivity.EXTRA_HITS, (Image) data);
         startActivity(i);
     }
 
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
     }
 
     @Override
-    public void onImageClicked(Hits hit) {
+    public void onImageClicked(Image hit) {
         ConfirmationDialog dialogFrag = ConfirmationDialog.newInstance(hit);
         dialogFrag.show(getSupportFragmentManager(), "dialog");
     }

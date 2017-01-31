@@ -3,7 +3,6 @@ package net.vnnz.app.pixabay.adapter;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,18 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import net.vnnz.app.pixabay.R;
-import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.model.pojo.Image;
 import net.vnnz.app.pixabay.utils.WindowUtils;
 
 import java.util.ArrayList;
 
 public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Holder> implements View.OnClickListener {
     private Activity activity;
-    private ArrayList<Hits> images;
+    private ArrayList<Image> images;
 
     private int imgWidth;
 
-    public GridLayoutAdapter(Activity activity, ArrayList<Hits> images, int configuration) {
+    public GridLayoutAdapter(Activity activity, ArrayList<Image> images, int configuration) {
         this.activity = activity;
         this.images = images;
         int columnsCount = (configuration == Configuration.ORIENTATION_LANDSCAPE) ? 3 : 2;
@@ -69,7 +68,7 @@ public class GridLayoutAdapter extends RecyclerView.Adapter<GridLayoutAdapter.Ho
     @Override
     public void onClick(View view) {
         if (activity instanceof OnImageClickListener) {
-            Hits hit = (Hits) view.getTag();
+            Image hit = (Image) view.getTag();
             ((OnImageClickListener) activity).onImageClicked(hit);
         }
     }

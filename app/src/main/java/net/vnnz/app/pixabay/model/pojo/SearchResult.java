@@ -1,12 +1,15 @@
 package net.vnnz.app.pixabay.model.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class SearchResult {
 
     private String total;
 
-    private ArrayList<Hits> hits;
+    @SerializedName("hits")
+    private ArrayList<Image> images;
 
     private String totalHits;
 
@@ -18,12 +21,12 @@ public class SearchResult {
         this.total = total;
     }
 
-    public ArrayList<Hits> getHits() {
-        return hits;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
-    public void setHits(ArrayList<Hits> hits) {
-        this.hits = hits;
+    public void setImages(ArrayList<Image> images) {
+        this.images = images;
     }
 
     public String getTotalHits() {
@@ -36,7 +39,7 @@ public class SearchResult {
 
     @Override
     public String toString() {
-        return "SearchResult [total = " + total + ", hits = " + hits + ", totalHits = " + totalHits + "]";
+        return "SearchResult [total = " + total + ", images = " + images + ", totalHits = " + totalHits + "]";
     }
 
 }

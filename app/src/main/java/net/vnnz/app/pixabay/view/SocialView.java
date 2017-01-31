@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.vnnz.app.pixabay.R;
-import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.model.pojo.Image;
 
 public class SocialView extends LinearLayout {
 
@@ -60,7 +60,7 @@ public class SocialView extends LinearLayout {
         }
     }
 
-    public void setImage(Hits image) {
+    public void setImage(Image image) {
         likes.setText(format(image.getLikes()));
         comments.setText(format(image.getComments()));
         faves.setText(format(image.getFavorites()));

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import net.vnnz.app.pixabay.databinding.CardImageFullBinding;
-import net.vnnz.app.pixabay.model.pojo.Hits;
+import net.vnnz.app.pixabay.model.pojo.Image;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CardImageFullBinding binding = DataBindingUtil.setContentView(this, R.layout.card_image_full);
 
-        Hits hit = getIntent().getParcelableExtra(EXTRA_HITS);
+        Image hit = getIntent().getParcelableExtra(EXTRA_HITS);
         binding.setImage(hit);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
