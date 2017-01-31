@@ -40,7 +40,7 @@ public class ImageActivity extends AppCompatActivity {
                 .placeholder (R.drawable.no_image_placeholder_big)
                 .error (R.drawable.search_icon)
                 .fit()
-                .centerInside()
+                .centerCrop()
                 .into((ImageView) findViewById(R.id.card_image));
     }
 }

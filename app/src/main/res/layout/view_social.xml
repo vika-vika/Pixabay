@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/faves_count"
             style="@style/SocialViewCountText"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="0dp"
             android:text="@{image.getFavorites()}"/>
     </LinearLayout>
 </layout>
