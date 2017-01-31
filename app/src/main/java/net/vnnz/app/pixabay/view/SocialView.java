@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.vnnz.app.pixabay.R;
+import net.vnnz.app.pixabay.model.pojo.Hits;
 
 public class SocialView extends LinearLayout {
 
@@ -30,7 +31,7 @@ public class SocialView extends LinearLayout {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        View view = inflate(getContext(), R.layout.view_likes_comments, this);
+        View view = inflate(getContext(), R.layout.view_social, this);
 
         if (!isInEditMode()) {
             likes = (TextView) findViewById(R.id.likes_count);
@@ -57,5 +58,11 @@ public class SocialView extends LinearLayout {
         } else {
             return str;
         }
+    }
+
+    public void setImage(Hits image) {
+        likes.setText(format(image.getLikes()));
+        comments.setText(format(image.getComments()));
+        faves.setText(format(image.getFavorites()));
     }
 }

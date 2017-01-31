@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="image" type="net.vnnz.app.pixabay.model.pojo.Hits"/>
+    </data>
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -34,14 +39,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-              <!--      <TextView
-                        android:id="@+id/card_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="TextView"
-                        android:textStyle="bold" />-->
-
                     <ImageView
                         android:layout_marginTop="10dp"
                         android:id="@+id/card_image"
@@ -60,12 +57,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="" />
+                            android:text="@{image.getTags()}" />
 
                         <net.vnnz.app.pixabay.view.SocialView
                             android:id="@+id/card_social"
                             android:layout_height="wrap_content"
-                            android:layout_width="wrap_content" />
+                            android:layout_width="wrap_content"
+                            android:image = "@{image}"/>
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -90,3 +88,4 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+</layout>
