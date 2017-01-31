@@ -34,9 +34,9 @@ public class SocialView extends LinearLayout {
         View view = inflate(getContext(), R.layout.view_social, this);
 
         if (!isInEditMode()) {
-            likes = (TextView) findViewById(R.id.likes_count);
-            comments = (TextView) findViewById(R.id.comments_count);
-            faves = (TextView) findViewById(R.id.faves_count);
+            likes = (TextView) view.findViewById(R.id.likes_count);
+            comments = (TextView) view.findViewById(R.id.comments_count);
+            faves = (TextView) view.findViewById(R.id.faves_count);
         }
     }
 
@@ -53,16 +53,12 @@ public class SocialView extends LinearLayout {
     }
 
     private String format (String str){
-        if ((str == null) || str.isEmpty()) {
-            return "0";
-        } else {
-            return str;
-        }
+        return ((str == null) || str.isEmpty())  ? "0" : str;
     }
 
     public void setImage(Image image) {
-        likes.setText(format(image.getLikes()));
-        comments.setText(format(image.getComments()));
-        faves.setText(format(image.getFavorites()));
+        setLikes(image.getLikes());
+        setComments(image.getComments());
+        setFavourits(image.getFavorites());
     }
 }
