@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import javax.inject.Singleton;
+
+import dagger.Component;
+import dagger.Module;
+import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -22,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@Module
 public class ApiClient {
 
     private static final String TAG = ApiClient.class.getSimpleName();
@@ -29,6 +35,11 @@ public class ApiClient {
     private Retrofit retrofit = null;
     private OkHttpClient httpClient = new OkHttpClient();
     private Context context;
+
+    @Provides
+    public ApiClient getApiClient() {
+        return new ApiClient();
+    };
 
     private Retrofit getClient(Context context) {
         this.context = context;
@@ -116,4 +127,5 @@ public class ApiClient {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
 }

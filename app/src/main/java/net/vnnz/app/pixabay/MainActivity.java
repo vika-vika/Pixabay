@@ -29,6 +29,8 @@ import net.vnnz.app.pixabay.utils.ResponseValidator;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -39,14 +41,14 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
 
     private RecyclerView recyclerViewMain;
     private LinearLayout searchLt;
-
-    private ApiClient client;
     private EditText searchEt;
     private TextView searchText;
     private Toolbar toolbar;
     private ProgressBar progressBar;
 
     private String DEFAULT_REQUEST = "fruits";
+
+    @Inject ApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements RequestListener<S
         adapter = new GridLayoutAdapter(this, images, getResources().getConfiguration().orientation);
         recyclerViewMain.setAdapter(adapter);
 
-        client = new ApiClient();
+        ApiClientComponent component = DaggerApiClientComponent.builder().apiClient(new ApiClient()).build();
+        component.inject(this);
+
         client.doSearch(this, DEFAULT_REQUEST, new RequestCallback<SearchResult>(this));
     }
 
